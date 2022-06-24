@@ -21,17 +21,17 @@ public class Config {
     /**
      *  Width of the field, in pixels
      */
-    public static final double FIELD_WIDTH = 648;
+    public static final double FIELD_WIDTH = 800;
 
     /**
      * Whether to use "Virtual Gamepad" (true -> Virtual gamepad, false -> Real gamepad)
      */
-    public static final boolean USE_VIRTUAL_GAMEPAD = true;
+    public static final boolean USE_VIRTUAL_GAMEPAD = false;
 
     /**
      * The image object for the field.
      */
-    public static final Image BACKGROUND = new Image("/virtual_robot/assets/freight_field648.bmp");
+    public static final Image BACKGROUND = new Image("/virtual_robot/assets/carbon_field.bmp");
 
     /**
      * If true, Virtual Gamepad joysticks and triggers will stay in the position where they were
@@ -46,7 +46,7 @@ public class Config {
      * Define the game.  This must match the forGame attribute of the GameElementConfig annotation
      * on the VirtualGameElement implementations.
      */
-    public static final Game GAME = new FreightFrenzy();
+    public static final Game GAME = new NoGame();
 
     /**
      * Friction coefficient between field and robot wheels. A very high value will minimize the effect

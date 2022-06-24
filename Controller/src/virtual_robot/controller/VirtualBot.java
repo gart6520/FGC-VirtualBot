@@ -77,7 +77,7 @@ public abstract class VirtualBot {
 
     public VirtualBot(){
         fieldPane = controller.getFieldPane();
-        botWidth = VirtualField.FIELD_WIDTH / 8.0;
+        botWidth = VirtualField.PIXELS_PER_METER * 0.5;
         halfBotWidth = botWidth / 2.0;
         world = controller.getWorld();
     }
