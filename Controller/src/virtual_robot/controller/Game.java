@@ -84,8 +84,8 @@ public abstract class Game {
      */
     private VirtualGameElement getVirtualGameElementInstance(Class<?> c){
         try {
-            Annotation a = c.getAnnotation(GameElementConfig.class);
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/virtual_robot/game_elements/fxml/" + ((GameElementConfig) a).filename() + ".fxml")));
+            GameElementConfig a = c.getAnnotation(GameElementConfig.class);
+            FXMLLoader loader = new FXMLLoader((getClass().getResource("/virtual_robot/game_elements/fxml/" + a.filename() + ".fxml")));
             Group group = (Group) loader.load();
             VirtualGameElement element = (VirtualGameElement) loader.getController();
             element.setUpGameElement(group);

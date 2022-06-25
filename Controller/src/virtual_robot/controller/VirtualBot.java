@@ -77,7 +77,7 @@ public abstract class VirtualBot {
 
     public VirtualBot(){
         fieldPane = controller.getFieldPane();
-        botWidth = VirtualField.PIXELS_PER_METER * 0.5;
+        botWidth = VirtualField.PIXELS_PER_INCH * 19;
         halfBotWidth = botWidth / 2.0;
         world = controller.getWorld();
     }
@@ -257,5 +257,7 @@ public abstract class VirtualBot {
         if (y > (VirtualField.Y_MAX - effectiveHalfBotWidth)) y = VirtualField.Y_MAX - effectiveHalfBotWidth;
         else if (y < (VirtualField.Y_MIN + effectiveHalfBotWidth)) y = VirtualField.Y_MIN + effectiveHalfBotWidth;
     }
+
+    public Body getChassisBody(){return chassisBody;}
 
 }
