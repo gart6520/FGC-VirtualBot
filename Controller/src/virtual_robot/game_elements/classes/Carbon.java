@@ -15,7 +15,7 @@ import virtual_robot.games.CarbonCapture;
 import java.util.ArrayList;
 import java.util.List;
 
-@GameElementConfig(name = "Carbon", filename = "carbon", forGame = CarbonCapture.class, numInstances = 10)
+@GameElementConfig(name = "Carbon", filename = "carbon", forGame = CarbonCapture.class, numInstances = 100)
 public class Carbon extends VirtualGameElement {
     public static final List<Carbon> carbons = new ArrayList<>();  // All CargoFreight objects
     public static final List<Carbon> carbonsOffField = new ArrayList<Carbon>();

@@ -230,28 +230,28 @@ public class VirtualRobotController {
          * category, and allows it to collide with all categories.
          */
         Body topWall = new Body();
-        BodyFixture topFixture = topWall.addFixture(topRect);
+        BodyFixture topFixture = topWall.addFixture(topRect, 10000);
         topFixture.setFilter(Filters.WALL_FILTER);
         topWall.setMass(MassType.INFINITE);
         world.addBody(topWall);
         topWall.setUserData(new Wall());
 
         Body bottomWall = new Body();
-        BodyFixture bottomFixture = bottomWall.addFixture(bottomRect);
+        BodyFixture bottomFixture = bottomWall.addFixture(bottomRect, 10000);
         bottomFixture.setFilter(Filters.WALL_FILTER);
         bottomWall.setMass(MassType.INFINITE);
         world.addBody(bottomWall);
         bottomWall.setUserData(new Wall());
 
         Body leftWall = new Body();
-        BodyFixture leftFixture = leftWall.addFixture(leftRect);
+        BodyFixture leftFixture = leftWall.addFixture(leftRect, 10000);
         leftFixture.setFilter(Filters.WALL_FILTER);
         leftWall.setMass(MassType.INFINITE);
         world.addBody(leftWall);
         leftWall.setUserData(new Wall());
 
         Body rightWall = new Body();
-        BodyFixture rightFixture = rightWall.addFixture(rightRect);
+        BodyFixture rightFixture = rightWall.addFixture(rightRect, 10000);
         rightFixture.setFilter(Filters.WALL_FILTER);
         rightWall.setMass(MassType.INFINITE);
         world.addBody(rightWall);

@@ -18,7 +18,7 @@ public class VirtualField {
     public static final double FIELD_WIDTH = Config.FIELD_WIDTH;         // Field width in Pixels
     public static final double HALF_FIELD_WIDTH = FIELD_WIDTH / 2.0;     // Half field width in Pixels
 
-    public static final double FIELD_WIDTH_INCHES = 236;
+    public static final double FIELD_WIDTH_INCHES = 275.6;
 //    public static final double FIELD_WIDTH_INCHES = 144;
     public static final double HALF_FIELD_WIDTH_INCHES = FIELD_WIDTH_INCHES / 2.0;
     public static final double FIELD_WIDTH_METERS = FIELD_WIDTH_INCHES * 0.0254;
