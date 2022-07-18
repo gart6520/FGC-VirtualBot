@@ -227,9 +227,11 @@ public abstract class VirtualGameElement {
         rotate = new Rotate(0, 0, 0);
         displayGroup.getTransforms().add(rotate);
 
+        double magicNumber = 4.16666 * VirtualField.FIELD_WIDTH_INCHES; //literally I have no idea why, but it works
+
         // This transform scales game element to correct size, based on field width
-        displayGroup.getTransforms().add(new Scale(VirtualField.FIELD_WIDTH/600,
-                VirtualField.FIELD_WIDTH/600, 0, 0));
+        displayGroup.getTransforms().add(new Scale(VirtualField.FIELD_WIDTH/magicNumber,
+                VirtualField.FIELD_WIDTH/magicNumber, 0, 0));
 
     }
 

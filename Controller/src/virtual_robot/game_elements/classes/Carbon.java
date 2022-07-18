@@ -6,6 +6,8 @@ import javafx.scene.shape.Circle;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.geometry.Convex;
+import org.dyn4j.geometry.MassType;
 import virtual_robot.controller.Filters;
 import virtual_robot.controller.*;
 import virtual_robot.dyn4j.Dyn4jUtil;
@@ -101,10 +103,14 @@ public class Carbon extends VirtualGameElement {
          * filter can be changed as ring status changes.
          */
         elementBody = Dyn4jUtil.createBody((Circle)carbon, this, 0, 0,
-                new FixtureData(CARBON_FILTER, 1.0, 0, 0));
+                new FixtureData(CARBON_FILTER, 0.5, 0.3, 0.05));
+        elementBody.setMassType(MassType.NORMAL);
+        elementBody.setAngularDamping(0.4);
+
 //        elementBody = Dyn4jUtil.createBody(carbon, this, 0, 0, new FixtureData(CARBON_FILTER, 1.0, 0.0, 0));
         body = elementBody;     //Just an alias
         carbonFixture = body.getFixture(0);
+        carbonFixture.setRestitutionVelocity(0.0);
         this.setStatus(CarbonStatus.OFF_FIELD);
     }
 

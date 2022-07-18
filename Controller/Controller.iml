@@ -21,11 +21,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/dyn4j-4.1.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/dyn4j-4.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/../lib/dyn4j-4.1.4-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/dyn4j-4.2.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>

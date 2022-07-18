@@ -16,8 +16,8 @@ public class Config {
      */
     public static final double X_MIN_FRACTION = 0; //0 for WHOLE FIELD OR BLUE REMOTE, 0.3333 for RED REMOTE FIELD
     public static final double X_MAX_FRACTION = 1;//1 for WHOLE FIELD OR RED REMOTE, 0.6667 for BLUE REMOTE FIELD
-    public static final double Y_MIN_FRACTION = 0.5/7;;  //Leave this alone for Ultimate Goal
-    public static final double Y_MAX_FRACTION = 1-(0.5/7);;  //Leave this alone for Ultimate Goal
+    public static final double Y_MIN_FRACTION = 0.5/7 - 0.007;  //Leave this alone for Ultimate Goal
+    public static final double Y_MAX_FRACTION = 1-(0.5/7) - 0.007;  //Leave this alone for Ultimate Goal
 
     /**
      *  Width of the field, in pixels

@@ -22,7 +22,10 @@ import javafx.util.Callback;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.ContinuousDetectionMode;
+import org.dyn4j.geometry.Geometry;
+import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.MassType;
+import org.dyn4j.geometry.Vector2;
 import org.dyn4j.world.World;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
@@ -219,43 +222,61 @@ public class VirtualRobotController {
                 1, VirtualField.FIELD_WIDTH_METERS);
 
         // Translate the rectangles into correct positions
-        topRect.translate(0, VirtualField.Y_MAX/VirtualField.PIXELS_PER_METER + 0.5);
-        bottomRect.translate(0, VirtualField.Y_MIN/VirtualField.PIXELS_PER_METER - 0.5);
-        leftRect.translate(VirtualField.X_MIN/VirtualField.PIXELS_PER_METER - 0.5, 0);
-        rightRect.translate(VirtualField.X_MAX/VirtualField.PIXELS_PER_METER + 0.5, 0);
+//        topRect.translate(0, VirtualField.Y_MAX/VirtualField.PIXELS_PER_METER + 0.5);
+//        bottomRect.translate(0, VirtualField.Y_MIN/VirtualField.PIXELS_PER_METER - 0.5);
+//        leftRect.translate(VirtualField.X_MIN/VirtualField.PIXELS_PER_METER - 0.5, 0);
+//        rightRect.translate(VirtualField.X_MAX/VirtualField.PIXELS_PER_METER + 0.5, 0);
 
         /*
          * For each wall, create a body with infinite mass. The shape (i.e., Rectangle) for each wall is placed into
          * the body via a BodyFixture. The Fixture is assigned a Category filter which assigns it to the WALL
          * category, and allows it to collide with all categories.
          */
-        Body topWall = new Body();
-        BodyFixture topFixture = topWall.addFixture(topRect, 10000);
-        topFixture.setFilter(Filters.WALL_FILTER);
-        topWall.setMass(MassType.INFINITE);
-        world.addBody(topWall);
-        topWall.setUserData(new Wall());
+//        Body topWall = new Body();
+//        BodyFixture topFixture = topWall.addFixture(topRect, 10000);
+//        topFixture.setFilter(Filters.WALL_FILTER);
+//        topWall.setMassType(MassType.INFINITE);
+//        topWall.setLinearVelocity(0, 0);
+//        world.addBody(topWall);
+//        topWall.setUserData(new Wall());
 
-        Body bottomWall = new Body();
-        BodyFixture bottomFixture = bottomWall.addFixture(bottomRect, 10000);
-        bottomFixture.setFilter(Filters.WALL_FILTER);
-        bottomWall.setMass(MassType.INFINITE);
-        world.addBody(bottomWall);
-        bottomWall.setUserData(new Wall());
+        Body wallTop = new Body();
+        BodyFixture top_fixture = wallTop.addFixture(topRect, 1.0, 0.4, 0.3);
+        top_fixture.setRestitutionVelocity(0.0);
+        top_fixture.setFilter(Filters.WALL_FILTER);
+        wallTop.translate(0, VirtualField.Y_MAX/VirtualField.PIXELS_PER_METER + 0.5);
+        wallTop.setMass(MassType.INFINITE);
+        world.addBody(wallTop);
+        wallTop.setUserData(new Wall());
 
-        Body leftWall = new Body();
-        BodyFixture leftFixture = leftWall.addFixture(leftRect, 10000);
-        leftFixture.setFilter(Filters.WALL_FILTER);
-        leftWall.setMass(MassType.INFINITE);
-        world.addBody(leftWall);
-        leftWall.setUserData(new Wall());
 
-        Body rightWall = new Body();
-        BodyFixture rightFixture = rightWall.addFixture(rightRect, 10000);
-        rightFixture.setFilter(Filters.WALL_FILTER);
-        rightWall.setMass(MassType.INFINITE);
-        world.addBody(rightWall);
-        rightWall.setUserData(new Wall());
+        Body wallBottom = new Body();
+        BodyFixture bottom_fixture = wallBottom.addFixture(bottomRect, 1.0, 0.4, 0.3);
+        bottom_fixture.setRestitutionVelocity(0.0);
+        bottom_fixture.setFilter(Filters.WALL_FILTER);
+        wallBottom.translate(0, VirtualField.Y_MIN/VirtualField.PIXELS_PER_METER - 0.5);
+        wallBottom.setMass(MassType.INFINITE);
+        world.addBody(wallBottom);
+        wallBottom.setUserData(new Wall());
+
+
+        Body wallLeft = new Body();
+        BodyFixture left_fixture = wallLeft.addFixture(leftRect, 1.0, 0.4, 0.3);
+        left_fixture.setRestitutionVelocity(0.0);
+        left_fixture.setFilter(Filters.WALL_FILTER);
+        wallLeft.translate(VirtualField.X_MIN/VirtualField.PIXELS_PER_METER - 0.5, 0);
+        wallLeft.setMass(MassType.INFINITE);
+        world.addBody(wallLeft);
+        wallLeft.setUserData(new Wall());
+
+        Body wallRight = new Body();
+        BodyFixture right_fixture = wallRight.addFixture(rightRect, 1.0, 0.4, 0.3);
+        right_fixture.setRestitutionVelocity(0.0);
+        right_fixture.setFilter(Filters.WALL_FILTER);
+        wallRight.translate(VirtualField.X_MAX/VirtualField.PIXELS_PER_METER + 0.5, 0);
+        wallRight.setMass(MassType.INFINITE);
+        world.addBody(wallRight);
+        wallRight.setUserData(new Wall());
     }
 
     /**

@@ -1,6 +1,5 @@
 package virtual_robot.games;
 
-import com.qualcomm.robotcore.util.Range;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Vector2;
@@ -8,6 +7,9 @@ import org.dyn4j.world.NarrowphaseCollisionData;
 import org.dyn4j.world.listener.CollisionListenerAdapter;
 import virtual_robot.controller.*;
 import virtual_robot.game_elements.classes.Carbon;
+import virtual_robot.game_elements.classes.Compressor;
+//import virtual_robot.game_elements.classes.CompressorOpening;
+import virtual_robot.game_elements.classes.CompressorOpening;
 
 import java.util.Random;
 
@@ -17,6 +19,12 @@ public class CarbonCapture extends Game {
 
     public static final Vector2 LEFT_CONTAINER = new Vector2(-(275.59-116.14)/2 + 50, 236.2/2);
     public static final Vector2 RIGHT_CONTAINER = new Vector2((275.59-116.14)/2 - 50, 236.2/2);
+
+    public static final Vector2[] compressorLocs = {new Vector2(VirtualField.PIXELS_PER_INCH*119.5, VirtualField.PIXELS_PER_INCH*99),
+            new Vector2(-VirtualField.PIXELS_PER_INCH*119, VirtualField.PIXELS_PER_INCH*99.5),
+            new Vector2(-VirtualField.PIXELS_PER_INCH*120, -VirtualField.PIXELS_PER_INCH*100.8),
+            new Vector2(VirtualField.PIXELS_PER_INCH*119.5, -VirtualField.PIXELS_PER_INCH*102),};
+
 
     public static final double CARBON_RETURN_VELOCITY = 75.0; // inches per second
     public static final double CARBON_RETURN_VELOCITY_VARIATION = 25; // inches per second
@@ -34,6 +42,12 @@ public class CarbonCapture extends Game {
             if (e instanceof Carbon) {
                 Carbon.carbons.add((Carbon) e);
             }
+            if (e instanceof Compressor) {
+                Compressor.compressors.add((Compressor) e);
+            }
+            if (e instanceof CompressorOpening) {
+                CompressorOpening.openings.add((CompressorOpening) e);
+            }
         }
 
         /*
@@ -45,9 +59,10 @@ public class CarbonCapture extends Game {
         world.addCollisionListener(new CollisionListenerAdapter<Body, BodyFixture>() {
             @Override
             public boolean collision(NarrowphaseCollisionData<Body, BodyFixture> collision) {
-                return handleNarrowPhaseCollision(collision);
+                return true;
             }
         });
+        updateDisplay();
 
     }
 
@@ -66,6 +81,16 @@ public class CarbonCapture extends Game {
 
         for (Carbon r : Carbon.carbons) {
             r.setStatus(Carbon.CarbonStatus.OFF_FIELD);
+        }
+        for (int i = 0; i<Compressor.compressors.size(); i++) {
+            Compressor c = Compressor.compressors.get(i);
+            c.setLocation(compressorLocs[i].x, compressorLocs[i].y , 2.25*Math.PI/3 + (Math.PI/2)*i);
+            c.setOnField(true);
+        }
+        for (int i = 0; i<CompressorOpening.openings.size(); i++) {
+            CompressorOpening c = CompressorOpening.openings.get(i);
+            c.setLocation(compressorLocs[i].x, compressorLocs[i].y , 2.25*Math.PI/3 + (Math.PI/2)*i);
+            c.setOnField(true);
         }
         for (int i = 1; i<50; i++){
             Carbon r = Carbon.carbonsOffField.get(0);
