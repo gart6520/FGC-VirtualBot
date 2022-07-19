@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--Markup file for the Wobble Goal game element graphics-->
-
 <?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.shape.Circle?>
 
-<!--The root node is a Group object; this object has a stack of multiple children.  Tne
-    fx:controller attribute indicates that Ring is the controller class-->
-
-<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="virtual_robot.game_elements.classes.ShippingHub">
+<Group xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="virtual_robot.game_elements.classes.Sink">
     <children>
-
-        <!--The wobble goal-->
-        <Circle fx:id="outerCircle" centerX="0" centerY="0" fill="#ba0000" radius="37.5" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="innerCircle" centerX="0" centerY="0" fill="#000000" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-      <Line endY="-37.5" startY="37.5" strokeWidth="3.0" />
-      <Line endX="32.476" endY="-18.75" startX="-32.476" startY="18.75" strokeWidth="3.0" />
-      <Line endX="32.476" endY="18.75" startX="-32.476" startY="-18.75" strokeWidth="3.0" />
-
+      <Circle fx:id="innerCircle" fill="#ffffff00" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+      <Polygon fill="#70707087" layoutX="0" layoutY="0" scaleX="0.32" scaleY="0.32" scaleZ="0.4" stroke="BLACK" strokeType="INSIDE" translateX="-363.0" translateY="-314.0">
+            <points>
+                <Double fx:value="723" />
+                <Double fx:value="314" />
+                <Double fx:value="543" />
+                <Double fx:value="625.769145" />
+                <Double fx:value="183" />
+                <Double fx:value="625.769145" />
+                <Double fx:value="3" />
+                <Double fx:value="314" />
+                <Double fx:value="183" />
+                <Double fx:value="2.230855" />
+                <Double fx:value="543" />
+                <Double fx:value="2.230855" />
+                <Double fx:value="723" />
+                <Double fx:value="314" />
+            </points>
+        </Polygon>
     </children>
 </Group>

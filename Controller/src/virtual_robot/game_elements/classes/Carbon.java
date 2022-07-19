@@ -55,7 +55,7 @@ public class Carbon extends VirtualGameElement {
     public static long CARBON_CATEGORY = 2048;
 
     //Standard ring filter: collide with everything that is allowed to collide with ring
-    public static final CategoryFilter CARBON_FILTER = new CategoryFilter(CARBON_CATEGORY, Filters.MASK_ALL);
+    public static final CategoryFilter CARBON_FILTER = new CategoryFilter(CARBON_CATEGORY, Filters.MASK_ALL & ~512);
 
     //Flying ring filter: collide with NOTHING
     public static final CategoryFilter CARBON_FLYING_FILTER = new CategoryFilter(CARBON_CATEGORY, 0);

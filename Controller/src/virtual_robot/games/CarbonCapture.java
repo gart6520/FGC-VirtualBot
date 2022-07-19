@@ -6,10 +6,8 @@ import org.dyn4j.geometry.Vector2;
 import org.dyn4j.world.NarrowphaseCollisionData;
 import org.dyn4j.world.listener.CollisionListenerAdapter;
 import virtual_robot.controller.*;
-import virtual_robot.game_elements.classes.Carbon;
-import virtual_robot.game_elements.classes.Compressor;
+import virtual_robot.game_elements.classes.*;
 //import virtual_robot.game_elements.classes.CompressorOpening;
-import virtual_robot.game_elements.classes.CompressorOpening;
 
 import java.util.Random;
 
@@ -47,6 +45,12 @@ public class CarbonCapture extends Game {
             }
             if (e instanceof CompressorOpening) {
                 CompressorOpening.openings.add((CompressorOpening) e);
+            }
+            if (e instanceof Sink){
+                Sink.theSink = (Sink) e;
+            }
+            if (e instanceof SinkBarrier){
+                SinkBarrier.theSinkBarrier = (SinkBarrier) e;
             }
         }
 
@@ -114,6 +118,12 @@ public class CarbonCapture extends Game {
             double vy = velocity * Math.sin(angle);
             r.setVelocityInchesPerSec(vx, vy);
         }
+
+        Sink.theSink.setOnField(true);
+        Sink.theSink.setLocation(0,0);
+
+        SinkBarrier.theSinkBarrier.setOnField(true);
+        SinkBarrier.theSinkBarrier.setLocation(0,0);
         updateDisplay();
     }
 

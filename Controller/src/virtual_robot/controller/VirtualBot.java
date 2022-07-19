@@ -78,7 +78,7 @@ public abstract class VirtualBot {
     public VirtualBot(){
         fieldPane = controller.getFieldPane();
 //        botWidth = VirtualField.FIELD_WIDTH/8.0;
-        botWidth = VirtualField.PIXELS_PER_METER * 0.75;
+        botWidth = VirtualField.PIXELS_PER_METER * 0.5;
         halfBotWidth = botWidth / 2.0;
         world = controller.getWorld();
     }
@@ -134,7 +134,7 @@ public abstract class VirtualBot {
         // This will adjust the bot to the correct size, based on size of the field display
         displayGroup.getTransforms().add(new Scale(botWidth/75, botWidth/75, 0, 0));
 
-        fieldPane.getChildren().add(displayGroup);
+        fieldPane.getChildren().add(1, displayGroup);
     }
 
     /**

@@ -32,7 +32,7 @@ public class Config {
     /**
      * The image object for the field.
      */
-    public static final Image BACKGROUND = new Image("/virtual_robot/assets/carbon_field_1.bmp");
+    public static final Image BACKGROUND = new Image("/virtual_robot/assets/carbon_field_1_no_sink.bmp");
 
     /**
      * If true, Virtual Gamepad joysticks and triggers will stay in the position where they were
