@@ -2,7 +2,7 @@
 ### _From FGC Team Greece for the all the FGC community!_ 
 
 New:  Carbon capture game adaptation, including the Carbon Capture game elements and two new robot 
-configurations (Carbon Tank Bot and Carbon Omni Bot) with an intake and shooter mechanism, resembling the shooters showcased in FGC site. There is a test opmode available for this robot configuration.
+configurations (Carbon Tank Bot and Carbon Omni Bot) with an intake and shooter mechanism, resembling the shooters showcased in FGC site. There is a test opmode available for the tank robot configuration.
 
 If you prefer not to have game elements littering the field, then set the game to "NoGame" in the 
 virtual_robot.config.Config.java file (in the Controller module).
