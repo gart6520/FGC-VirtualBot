@@ -13,7 +13,7 @@ PDF can be [downloaded for free](https://github.com/alan412/LearnJavaForFTC) or 
 [Amazon](https://www.amazon.com/dp/B08DBVKXLZ).
 
 ![](/readme_image.JPG)
-Detailed installation instructions can be found [here](/Detailed%20Installation%20Instructions.pdf)
+### **Detailed installation instructions can be found [here](/Detailed%20Installation%20Instructions.pdf)**
 
 This is a JavaFX application developed using the (free) IntelliJ IDEA Community Edition IDE. The repository can be downloaded
 and unzipped, then opened with IntelliJ. It can also be run using Android Studio 
