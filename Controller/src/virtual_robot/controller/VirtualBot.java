@@ -221,6 +221,26 @@ public abstract class VirtualBot {
 
     }
 
+    public synchronized void positionTo(double x, double y, double angle){
+        this.x = x;
+        this.y = y;
+        headingRadians = -angle;
+        constrainToBoundaries();
+        updateDisplay();
+
+        if (chassisBody != null){
+            Transform t = new Transform();
+            t.rotate(headingRadians);
+            t.translate(this.x/ VirtualField.PIXELS_PER_METER, this.y/ VirtualField.PIXELS_PER_METER);
+            chassisBody.setTransform(t);
+            chassisBody.setLinearVelocity(0, 0);
+            chassisBody.setAngularVelocity(0);
+            chassisBody.clearAccumulatedForce();
+            chassisBody.clearAccumulatedTorque();
+        }
+
+    }
+
     public void removeFromDisplay(Pane fieldPane){
         fieldPane.getChildren().remove(displayGroup);
     }

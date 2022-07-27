@@ -9,5 +9,7 @@
          <Rectangle arcHeight="20.0" arcWidth="20.0" fill="TRANSPARENT" height="75.0" rotate="30.0" width="20.0" x="-55.0" y="-10.0" />
          <Rectangle arcHeight="20.0" arcWidth="20.0" fill="TRANSPARENT" height="75.0" rotate="-30.0" width="20.0" x="40.0" y="-10.0" />
       </Group>
+      <Rectangle fx:id="sensor" arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="65.0" rotate="45.0" strokeType="INSIDE" width="65.0" x="-28.0" y="20.0" />
+<!--      <Rectangle fx:id="opening" height="75.0" rotate="90.0" width="20.0" x="-10.0" y="-37.5" />-->
    </children>
 </Group>

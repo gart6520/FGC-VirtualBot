@@ -7,6 +7,7 @@ import org.dyn4j.world.NarrowphaseCollisionData;
 import org.dyn4j.world.listener.CollisionListenerAdapter;
 import virtual_robot.controller.*;
 import virtual_robot.game_elements.classes.*;
+import virtual_robot.util.Vector2D;
 //import virtual_robot.game_elements.classes.CompressorOpening;
 
 import java.util.Random;
@@ -15,8 +16,8 @@ import static java.lang.Math.abs;
 
 public class CarbonCapture extends Game {
 
-    public static final Vector2 LEFT_CONTAINER = new Vector2(-(275.59-116.14)/2 + 50, 236.2/2);
-    public static final Vector2 RIGHT_CONTAINER = new Vector2((275.59-116.14)/2 - 50, 236.2/2);
+    public static final Vector2 LEFT_CONTAINER = new Vector2(-(275.59-116.14)/2, 236.2/2);
+    public static final Vector2 RIGHT_CONTAINER = new Vector2((275.59-116.14)/2, 236.2/2);
 
     public static final Vector2[] compressorLocs = {new Vector2(VirtualField.PIXELS_PER_INCH*119.5, VirtualField.PIXELS_PER_INCH*99),
             new Vector2(-VirtualField.PIXELS_PER_INCH*119, VirtualField.PIXELS_PER_INCH*99.5),
@@ -28,6 +29,7 @@ public class CarbonCapture extends Game {
     public static final double CARBON_RETURN_VELOCITY_VARIATION = 25; // inches per second
 
     private boolean humanPlayerActive = true;
+    private long nextCarbonReleaseTimeMillis = 1500;
 
     @Override
     public void initialize() {
@@ -63,7 +65,7 @@ public class CarbonCapture extends Game {
         world.addCollisionListener(new CollisionListenerAdapter<Body, BodyFixture>() {
             @Override
             public boolean collision(NarrowphaseCollisionData<Body, BodyFixture> collision) {
-                return true;
+                return handleNarrowPhaseCollision(collision);
             }
         });
         updateDisplay();
@@ -150,6 +152,14 @@ public class CarbonCapture extends Game {
      */
     @Override
     public void updateHumanPlayerState(double millis) {
+        if(Compressor.capturedCarbons.size()>0 && humanPlayerActionRequested){
+//            System.out.println("BBBBBBBB");
+            Carbon c = Compressor.capturedCarbons.get(0);
+            c.setStatus(Carbon.CarbonStatus.FLYING);
+            Vector2D velocity = c.getLocation().normalized().multiplied(-CARBON_RETURN_VELOCITY);
+            c.setVelocityInchesPerSec(velocity.x, velocity.y);
+            Compressor.capturedCarbons.remove(c);
+        }
             humanPlayerActionRequested = false;
     }
 
@@ -175,71 +185,23 @@ public class CarbonCapture extends Game {
             Body b2 = collision.getBody2();
             Object o1 = b1.getUserData();
             Object o2 = b2.getUserData();
-//
-//            if (o1 instanceof Carbon && o2 instanceof Wall) {
-//                System.out.println("HEYYY");
-//                /*Elastic collision physics between the balls*/
-//                Carbon r1 = (Carbon) o1;
-//                Vector2 vel1 = r1.getElementBody().getLinearVelocity();
-//                if (r1.getStatus() == Carbon.CarbonStatus.ROLLING) {
-//                    r1.setVelocityMetersPerSec(vel1.x / VirtualField.INCHES_PER_METER, -vel1.y / VirtualField.INCHES_PER_METER);
-//                    r1.setNextStatus(Carbon.CarbonStatus.ROLLING);
-//                }
-//            }
-//
-//            if (o2 instanceof Carbon && o1 instanceof Wall) {
-//                /*Elastic collision physics between the balls*/
-//                System.out.println("HEYYY");
-//
-//                Carbon r1 = (Carbon) o2;
-//                Vector2 vel1 = r1.getElementBody().getLinearVelocity();
-//                if (r1.getStatus() == Carbon.CarbonStatus.ROLLING) {
-//                    r1.setVelocityMetersPerSec(vel1.x / VirtualField.INCHES_PER_METER, -vel1.y / VirtualField.INCHES_PER_METER);
-//                    r1.setNextStatus(Carbon.CarbonStatus.ROLLING);
-//                }
-//            }
-//
-//            if (o2 instanceof Carbon) {
-//                Carbon r2 = (Carbon) o2;
-//                Vector2 vel2 = r2.getElementBody().getLinearVelocity();
-//               if (r2.getStatus() == Carbon.CarbonStatus.ROLLING) {
-//                   r2.setVelocityMetersPerSec(-vel2.x / VirtualField.INCHES_PER_METER, -vel2.y / VirtualField.INCHES_PER_METER);
-//                   r2.setNextStatus(Carbon.CarbonStatus.ROLLING);
-//               }
-//            }
 
-//            if (o1 instanceof Carbon && o2 instanceof VirtualBot) {
-//                Carbon r1 = (Carbon) o1;
-//                Vector2 velBot = ((VirtualBot) o2).getChassisBody().getLinearVelocity();
-//                if(abs(velBot.getMagnitude()) > abs(maxBotVelocity.getMagnitude())){
-////                    maxBotVelocity = velBot;
-//                    System.out.println("HSHSHSSH");
-//                }
-//                if (r1.getStatus() == Carbon.CarbonStatus.ROLLING) {
-//                    r1.setVelocityMetersPerSec(maxBotVelocity.x / VirtualField.INCHES_PER_METER, maxBotVelocity.x / VirtualField.INCHES_PER_METER);
-//                    r1.setNextStatus(Carbon.CarbonStatus.ROLLING);
-//                }
-//                System.out.println(maxBotVelocity);
-//                System.out.println(abs(velBot.getMagnitude()));
-//                System.out.println(abs(maxBotVelocity.getMagnitude()));
-//            }
-//
-//            if (o2 instanceof Carbon && o1 instanceof VirtualBot) {
-//                Carbon r2 = (Carbon) o2;
-////                Vector2 velBot = ((VirtualBot) o1).getChassisBody().getLinearVelocity();
-//                Vector2 velBot = ((VirtualBot) o1).getChassisBody().getLinearVelocity();
-//
-//                if(abs(velBot.getMagnitude()) > abs(maxBotVelocity.getMagnitude())){
-////                    maxBotVelocity = velBot;
-//                    System.out.println("HYSYYWYW");
-//                }
-//                if (r2.getStatus() == Carbon.CarbonStatus.ROLLING) {
-//                    r2.setVelocityMetersPerSec(maxBotVelocity.x / VirtualField.INCHES_PER_METER, maxBotVelocity.y / VirtualField.INCHES_PER_METER);
-//                    r2.setNextStatus(Carbon.CarbonStatus.ROLLING);
-//                }
-//                System.out.println(abs(velBot.getMagnitude()));
-//                System.out.println(abs(maxBotVelocity.getMagnitude()));
-//            }
+            if (o1 instanceof Carbon && o2 instanceof Sink) {
+                /*Elastic collision physics between the balls*/
+                Carbon r1 = (Carbon) o1;
+                if (r1.getStatus() == Carbon.CarbonStatus.FLYING) {
+                    r1.setNextStatus(Carbon.CarbonStatus.OFF_FIELD);
+                }
+            }
+
+            if (o2 instanceof Carbon && o1 instanceof Sink) {
+                /*Elastic collision physics between the balls*/
+                Carbon r2 = (Carbon) o2;
+                if (r2.getStatus() == Carbon.CarbonStatus.FLYING) {
+                    r2.setNextStatus(Carbon.CarbonStatus.OFF_FIELD);
+                }
+            }
+
 
             return result;
         }

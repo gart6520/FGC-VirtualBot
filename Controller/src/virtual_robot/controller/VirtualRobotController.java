@@ -482,6 +482,7 @@ public class VirtualRobotController {
         }
         bot = getVirtualBotInstance(cbxConfig.getValue());
         if (bot == null) System.out.println("Unable to get VirtualBot Object");
+        bot.positionTo(200, 0 ,0);
         hardwareMap = bot.getHardwareMap();
         initializeTelemetryTextArea();
         sldRandomMotorError.setValue(0.0);

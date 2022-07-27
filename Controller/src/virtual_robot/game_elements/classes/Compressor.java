@@ -1,14 +1,18 @@
 package virtual_robot.game_elements.classes;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.MovingStatistics;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rotation;
 import org.dyn4j.geometry.Transform;
+import org.dyn4j.world.NarrowphaseCollisionData;
+import org.dyn4j.world.listener.CollisionListenerAdapter;
 import virtual_robot.controller.Filters;
 import virtual_robot.controller.GameElementConfig;
 import virtual_robot.controller.VirtualField;
@@ -23,9 +27,13 @@ import java.util.List;
 @GameElementConfig(name = "Compressor", filename = "compressor", forGame = CarbonCapture.class, numInstances = 4)
 public class Compressor extends VirtualGameElement {
     public Group sides;
+    public Rectangle sensor;
     private Body compressorBody = null;
     private Body openingBody = null;
+    private BodyFixture compressorSensor;
     public static List<Compressor> compressors = new ArrayList<>();
+    public static List<Carbon> capturedCarbons = new ArrayList<>();
+    private Carbon carbonToLoad;
 
 
     // Category and filter for collisions
@@ -36,6 +44,12 @@ public class Compressor extends VirtualGameElement {
     @Override
     public void initialize(){
         super.initialize();
+        world.addCollisionListener(new CollisionListenerAdapter<Body, BodyFixture>(){
+            @Override
+            public boolean collision(NarrowphaseCollisionData<Body, BodyFixture> collision) {
+                return handleNarrowPhaseCollisions(collision);
+            }
+        });
     }
 
     @Override
@@ -43,6 +57,9 @@ public class Compressor extends VirtualGameElement {
         x = compressorBody.getTransform().getTranslationX() * VirtualField.PIXELS_PER_METER;
         y = compressorBody.getTransform().getTranslationY() * VirtualField.PIXELS_PER_METER;
         headingRadians = compressorBody.getTransform().getRotationAngle();
+
+        if(carbonToLoad != null)captureCarbon();
+
     }
     @Override
     public synchronized void updateDisplay() {
@@ -51,10 +68,49 @@ public class Compressor extends VirtualGameElement {
 
     @Override
     public void setUpBody() {
-
         elementBody = Dyn4jUtil.createBody(sides, this, 0, 0, new FixtureData(COMPRESSOR_FILTER, 1, 0, 0));
+        compressorSensor = Dyn4jUtil.createFixture(sensor, 0, 0, true,
+                new FixtureData(new CategoryFilter(Carbon.CARBON_CATEGORY, -1), 1, 0, 0));
+        compressorSensor.setSensor(true);
+        elementBody.addFixture(compressorSensor);
         compressorBody = elementBody;
         compressorBody.setMass(MassType.INFINITE);
     }
 
+    /**
+     * Listener method to handle Narrowphase collision. This method will look specifically for collisions that cause
+     * the robot to control a previously un-controlled game element. This method is called DURING the world
+     * update.
+     * Note that when ring collision with the intake is detected, the ring body is not immediately removed from
+     * the dyn4j world. During so DURING the world update is not recommended (per dyn4j docs), and does cause
+     * problems. Instead, save a reference to the ring to be loaded, and handle AFTER the world update, within
+     * the updateStateAndSensors method.
+     *
+     * @param collision
+     * @return True to allow collision resolution to continue; False to terminate collision resolution.
+     */
+    private boolean handleNarrowPhaseCollisions(NarrowphaseCollisionData<Body, BodyFixture> collision){
+        BodyFixture f1 = collision.getFixture1();
+        BodyFixture f2 = collision.getFixture2();
+        if(f1 == compressorSensor || f2 == compressorSensor){
+            Body b = f1 == compressorSensor ? collision.getBody2() : collision.getBody1();
+            if (b.getUserData() instanceof Carbon){
+                Carbon c = (Carbon) b.getUserData();
+                carbonToLoad = c;
+                return false;
+            }
+
+        }
+        return true;
+    }
+
+    private void captureCarbon(){
+        if (carbonToLoad.getStatus() != Carbon.CarbonStatus.FLYING){
+            if (!capturedCarbons.contains(carbonToLoad)) {
+                carbonToLoad.setStatus(Carbon.CarbonStatus.CAPTURED);
+                capturedCarbons.add(carbonToLoad);
+            }
+        }
+        carbonToLoad = null;
+    }
 }
