@@ -12,8 +12,6 @@ import virtual_robot.util.Vector2D;
 
 import java.util.Random;
 
-import static java.lang.Math.abs;
-
 public class CarbonCapture extends Game {
 
     public static final Vector2 LEFT_CONTAINER = new Vector2(-(275.59-116.14)/2, 236.2/2);
@@ -29,7 +27,6 @@ public class CarbonCapture extends Game {
     public static final double CARBON_RETURN_VELOCITY_VARIATION = 25; // inches per second
 
     private boolean humanPlayerActive = true;
-    private long nextCarbonReleaseTimeMillis = 1500;
 
     @Override
     public void initialize() {
@@ -73,21 +70,22 @@ public class CarbonCapture extends Game {
     }
 
     /**
-     * Randomize starter stack size. Place wobbles and stacked rings on the field, and change
-     * status of the stacked rings to STACKED (and all others OFF_FIELD).
+     * Giving the Carbons initial velocity and placing - rotating the other Game Elements (Compressors, Sink etc.)
      */
     @Override
     public void resetGameElements() {
         Carbon.carbonsOffField.clear();
 
         /*
-         * Place all rings off-field, then put the appropriate number of rings back on the
-         * field, in the ring stack.
+         * Place all carbons off-field.
          */
 
         for (Carbon r : Carbon.carbons) {
             r.setStatus(Carbon.CarbonStatus.OFF_FIELD);
         }
+        /*
+         * Place all compressors on their according positions with the correct rotation.
+         */
         for (int i = 0; i<Compressor.compressors.size(); i++) {
             Compressor c = Compressor.compressors.get(i);
             c.setLocation(compressorLocs[i].x, compressorLocs[i].y , 2.25*Math.PI/3 + (Math.PI/2)*i);
@@ -98,6 +96,9 @@ public class CarbonCapture extends Game {
             c.setLocation(compressorLocs[i].x, compressorLocs[i].y , 2.25*Math.PI/3 + (Math.PI/2)*i);
             c.setOnField(true);
         }
+        /*
+         * Giving the Carbons initial velocity
+         */
         for (int i = 1; i<50; i++){
             Carbon r = Carbon.carbonsOffField.get(0);
             Random random = new Random();
@@ -145,15 +146,13 @@ public class CarbonCapture extends Game {
     }
 
     /**
-     * If the ring release interval has passed, and there are available off-field rings, deposit
-     * a rolling ring at the release zone, with a randomized velocity.
+     * If a human player action is requested, a captured carbon will be given an initial velocity towards the sink
      *
      * @param millis milliseconds since the previous update
      */
     @Override
     public void updateHumanPlayerState(double millis) {
         if(Compressor.capturedCarbons.size()>0 && humanPlayerActionRequested){
-//            System.out.println("BBBBBBBB");
             Carbon c = Compressor.capturedCarbons.get(0);
             c.setStatus(Carbon.CarbonStatus.FLYING);
             Vector2D velocity = c.getLocation().normalized().multiplied(-CARBON_RETURN_VELOCITY);
@@ -179,7 +178,6 @@ public class CarbonCapture extends Game {
          */
         private boolean handleNarrowPhaseCollision (NarrowphaseCollisionData < Body, BodyFixture > collision){
 
-            boolean result = true;
 
             Body b1 = collision.getBody1();
             Body b2 = collision.getBody2();
@@ -187,7 +185,6 @@ public class CarbonCapture extends Game {
             Object o2 = b2.getUserData();
 
             if (o1 instanceof Carbon && o2 instanceof Sink) {
-                /*Elastic collision physics between the balls*/
                 Carbon r1 = (Carbon) o1;
                 if (r1.getStatus() == Carbon.CarbonStatus.FLYING) {
                     r1.setNextStatus(Carbon.CarbonStatus.OFF_FIELD);
@@ -195,7 +192,6 @@ public class CarbonCapture extends Game {
             }
 
             if (o2 instanceof Carbon && o1 instanceof Sink) {
-                /*Elastic collision physics between the balls*/
                 Carbon r2 = (Carbon) o2;
                 if (r2.getStatus() == Carbon.CarbonStatus.FLYING) {
                     r2.setNextStatus(Carbon.CarbonStatus.OFF_FIELD);
@@ -203,7 +199,7 @@ public class CarbonCapture extends Game {
             }
 
 
-            return result;
+            return true;
         }
 
     }

@@ -22,10 +22,7 @@ import javafx.util.Callback;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.ContinuousDetectionMode;
-import org.dyn4j.geometry.Geometry;
-import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
 import org.dyn4j.world.World;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
@@ -45,7 +42,7 @@ import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import virtual_robot.robots.ControlsElements;
-import virtual_robot.robots.classes.MecanumBot;
+import virtual_robot.robots.classes.CarbonTankBot;
 import virtual_robot.keyboard.KeyState;
 
 import java.io.IOException;
@@ -321,7 +318,7 @@ public class VirtualRobotController {
                 validConfigClasses.add(c);
         }
         cbxConfig.setItems(validConfigClasses);
-        cbxConfig.setValue(MecanumBot.class);
+        cbxConfig.setValue(CarbonTankBot.class);
 
         cbxConfig.setCellFactory(new Callback<ListView<Class<?>>, ListCell<Class<?>>>() {
             @Override

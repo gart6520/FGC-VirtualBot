@@ -1,7 +1,5 @@
 package virtual_robot.game_elements.classes;
 
-import javafx.fxml.FXML;
-import javafx.scene.shape.Circle;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.MassType;
@@ -12,7 +10,9 @@ import virtual_robot.controller.VirtualGameElement;
 import virtual_robot.dyn4j.Dyn4jUtil;
 import virtual_robot.dyn4j.FixtureData;
 import virtual_robot.games.CarbonCapture;
-
+/**
+ * Just a Barrier Object that lives in the center of the field and collides with the robot so that they don't go under the sink completely.
+ */
 @GameElementConfig(name = "SinkBarrier", filename = "sink_barrier", forGame = CarbonCapture.class)
 public class SinkBarrier extends VirtualGameElement {
     private Body sinkBody;

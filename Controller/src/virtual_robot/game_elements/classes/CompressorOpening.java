@@ -1,9 +1,5 @@
 package virtual_robot.game_elements.classes;
 
-import com.qualcomm.robotcore.util.MovingStatistics;
-import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.MassType;
@@ -16,18 +12,20 @@ import virtual_robot.dyn4j.FixtureData;
 import virtual_robot.games.CarbonCapture;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @GameElementConfig(name = "CompressorOpening", filename = "compressor_opening", forGame = CarbonCapture.class, numInstances = 4)
+/*
+* A class that represents the opening of the Compressors. Basically a body that collides with the chassis but not with the Carbons.
+* TODO Implement it with a fixture in the main Compressor Class
+* */
 public class CompressorOpening extends VirtualGameElement {
     private Body compressorBody;
 
-    private Body openingBody = null;
+//    private Body openingBody = null;
 
 
     // Category and filter for collisions
     public static final long COMPRESSOR_CATEGORY = 1024;
-//    public static final CategoryFilter COMPRESSOR_FILTER = new CategoryFilter(COMPRESSOR_CATEGORY, Filters.MASK_ALL);
     public static final CategoryFilter OPENING_FILTER = new CategoryFilter(COMPRESSOR_CATEGORY, Filters.CHASSIS);
 
     @Override
@@ -45,8 +43,6 @@ public class CompressorOpening extends VirtualGameElement {
     public synchronized void updateDisplay() {
         super.updateDisplay();
     }
-    @FXML
-    private Rectangle opening;
 
     public static ArrayList<CompressorOpening> openings = new ArrayList<>();
     @Override

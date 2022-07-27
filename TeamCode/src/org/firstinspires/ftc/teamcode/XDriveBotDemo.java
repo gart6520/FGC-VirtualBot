@@ -13,14 +13,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.*;
 @TeleOp(name = "XDriveBot demo", group = "XBot")
 public class XDriveBotDemo extends LinearOpMode {
 
-    DcMotor m1, m2, m3, m4;
-    CRServo backServo;
+    DcMotor m1, m2, m3, m4, intakeMotor, shooterMotor;
+    Servo shooterServo;
 
     public void runOpMode(){
         m1 = hardwareMap.dcMotor.get("back_left_motor");
         m2 = hardwareMap.dcMotor.get("front_left_motor");
         m3 = hardwareMap.dcMotor.get("front_right_motor");
         m4 = hardwareMap.dcMotor.get("back_right_motor");
+        intakeMotor = hardwareMap.dcMotor.get("intake_motor");
+        shooterMotor = hardwareMap.dcMotor.get("shooter_motor");
         m1.setDirection(DcMotor.Direction.REVERSE);
         m2.setDirection(DcMotor.Direction.REVERSE);
         m1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -35,7 +37,7 @@ public class XDriveBotDemo extends LinearOpMode {
         //GyroSensor gyro = hardwareMap.gyroSensor.get("gyro_sensor");
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        backServo = hardwareMap.crservo.get("back_crservo");
+        shooterServo = hardwareMap.servo.get("kicker_servo");
         DistanceSensor frontDistance = hardwareMap.get(DistanceSensor.class, "front_distance");
         DistanceSensor leftDistance = hardwareMap.get(DistanceSensor.class, "left_distance");
         DistanceSensor rightDistance = hardwareMap.get(DistanceSensor.class, "right_distance");
@@ -80,9 +82,20 @@ public class XDriveBotDemo extends LinearOpMode {
             m2.setPower(p2);
             m3.setPower(p3);
             m4.setPower(p4);
-            double psrv = gamepad1.right_trigger;
-            if (Math.abs(psrv) < 0.05) psrv = 0.0;
-            backServo.setPower(psrv);
+//            double psrv = gamepad1.right_trigger;
+//            if (Math.abs(psrv) < 0.05) psrv = 0.0;
+//            backServo.setPower(psrv);
+            if (gamepad1.a) { intakeMotor.setPower(1); }
+            if (gamepad1.y) { intakeMotor.setPower(0); }
+
+            if (gamepad1.b) { intakeMotor.setPower(0); }
+            if(gamepad1.x){ shooterMotor.setPower(1); }
+
+            if(gamepad1.right_bumper){
+                shooterServo.setPosition(0.95);
+                pause(100);
+                shooterServo.setPosition(0);
+            }
             telemetry.addData("Color","R %d  G %d  B %d", colorSensor.red(), colorSensor.green(), colorSensor.blue());
             Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
             telemetry.addData("Heading", " %.1f", orientation.firstAngle * 180.0 / Math.PI);
@@ -98,5 +111,12 @@ public class XDriveBotDemo extends LinearOpMode {
         m2.setPower(0);
         m3.setPower(0);
         m4.setPower(0);
+    }
+    private void pause(long ms){
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -18,13 +18,16 @@ import org.dyn4j.world.listener.CollisionListenerAdapter;
 import virtual_robot.controller.BotConfig;
 import virtual_robot.controller.Filters;
 import virtual_robot.controller.VirtualField;
-import virtual_robot.game_elements.classes.*;
+import virtual_robot.dyn4j.Hinge;
+import virtual_robot.game_elements.classes.Carbon;
+import virtual_robot.game_elements.classes.Sink;
+import virtual_robot.game_elements.classes.SinkBarrier;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@BotConfig(name = "Carbon Tank Bot", filename = "carbon_tank_bot")
-public class CarbonTankBot extends TwoWheelPhysicsBase{
+@BotConfig(name = "Carbon Omni Bot", filename = "carbon_Omni_bot")
+public class CarbonOmniBot extends XDrivePhysicsBase{
     private static final int MAG_SIZE = 5;
     private static final int COOLDOWN = 250;
 
@@ -67,9 +70,9 @@ public class CarbonTankBot extends TwoWheelPhysicsBase{
 
     private ServoImpl kickerServo;
     ElapsedTime kickerTimer = new ElapsedTime();
-    private CarbonTankBot.KickerState kickerState = KickerState.LOADED;
+    private CarbonOmniBot.KickerState kickerState = KickerState.LOADED;
 
-    public CarbonTankBot(){
+    public CarbonOmniBot(){
         super();
     }
 
@@ -103,7 +106,7 @@ public class CarbonTankBot extends TwoWheelPhysicsBase{
 //        world.addJoint(rightArmHinge);
 
         intakeFixture = chassisBody.addFixture(new org.dyn4j.geometry.Rectangle(
-                14 / VirtualField.INCHES_PER_METER, 4 / VirtualField.INCHES_PER_METER));
+                10.2307692308 / VirtualField.INCHES_PER_METER, 4 / VirtualField.INCHES_PER_METER));
         intakeFixture.getShape().translate(0, -8.5 / VirtualField.INCHES_PER_METER);
 //        intakeFixture = Dyn4jUtil.createFixture(intake, ((75.0-52.0/2))/ VirtualField.PIXELS_PER_INCH, (-63.0 /2 / VirtualField.PIXELS_PER_INCH), true, new FixtureData(1, 0, 0));
         intakeFixture.setSensor(true);

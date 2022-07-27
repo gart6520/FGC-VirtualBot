@@ -1,16 +1,11 @@
 package virtual_robot.game_elements.classes;
 
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.MovingStatistics;
-import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Rotation;
-import org.dyn4j.geometry.Transform;
 import org.dyn4j.world.NarrowphaseCollisionData;
 import org.dyn4j.world.listener.CollisionListenerAdapter;
 import virtual_robot.controller.Filters;
@@ -29,7 +24,6 @@ public class Compressor extends VirtualGameElement {
     public Group sides;
     public Rectangle sensor;
     private Body compressorBody = null;
-    private Body openingBody = null;
     private BodyFixture compressorSensor;
     public static List<Compressor> compressors = new ArrayList<>();
     public static List<Carbon> capturedCarbons = new ArrayList<>();
@@ -39,7 +33,6 @@ public class Compressor extends VirtualGameElement {
     // Category and filter for collisions
     public static final long COMPRESSOR_CATEGORY = 1024;
     public static final CategoryFilter COMPRESSOR_FILTER = new CategoryFilter(COMPRESSOR_CATEGORY, Filters.MASK_ALL);
-//    public static final CategoryFilter OPENING_FILTER = new CategoryFilter(COMPRESSOR_CATEGORY, Filters.CHASSIS);
 
     @Override
     public void initialize(){
@@ -69,6 +62,7 @@ public class Compressor extends VirtualGameElement {
     @Override
     public void setUpBody() {
         elementBody = Dyn4jUtil.createBody(sides, this, 0, 0, new FixtureData(COMPRESSOR_FILTER, 1, 0, 0));
+//      Creating the sensor Fixture that keeps track of the captured carbons
         compressorSensor = Dyn4jUtil.createFixture(sensor, 0, 0, true,
                 new FixtureData(new CategoryFilter(Carbon.CARBON_CATEGORY, -1), 1, 0, 0));
         compressorSensor.setSensor(true);
@@ -86,7 +80,7 @@ public class Compressor extends VirtualGameElement {
      * problems. Instead, save a reference to the ring to be loaded, and handle AFTER the world update, within
      * the updateStateAndSensors method.
      *
-     * @param collision
+     * @param collision the NarrowphaseCollisionData object
      * @return True to allow collision resolution to continue; False to terminate collision resolution.
      */
     private boolean handleNarrowPhaseCollisions(NarrowphaseCollisionData<Body, BodyFixture> collision){
@@ -95,8 +89,7 @@ public class Compressor extends VirtualGameElement {
         if(f1 == compressorSensor || f2 == compressorSensor){
             Body b = f1 == compressorSensor ? collision.getBody2() : collision.getBody1();
             if (b.getUserData() instanceof Carbon){
-                Carbon c = (Carbon) b.getUserData();
-                carbonToLoad = c;
+                carbonToLoad = (Carbon) b.getUserData();
                 return false;
             }
 

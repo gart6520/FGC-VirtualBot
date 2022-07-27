@@ -13,12 +13,13 @@ import virtual_robot.dyn4j.Dyn4jUtil;
 import virtual_robot.dyn4j.FixtureData;
 import virtual_robot.games.CarbonCapture;
 
-@GameElementConfig(name = "Sink", filename = "sink", forGame = CarbonCapture.class, numInstances = 1)
+@GameElementConfig(name = "Sink", filename = "sink", forGame = CarbonCapture.class)
 public class Sink extends VirtualGameElement {
     private Body sinkBody;
 
     public static Sink theSink;
 
+//    An object that represents the inner circle of the sink. This is where the balls land
     @FXML
     private Circle innerCircle;
 
