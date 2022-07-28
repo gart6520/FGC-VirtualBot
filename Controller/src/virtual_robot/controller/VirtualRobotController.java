@@ -44,6 +44,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import virtual_robot.robots.ControlsElements;
 import virtual_robot.robots.classes.CarbonTankBot;
 import virtual_robot.keyboard.KeyState;
+import virtual_robot.robots.classes.ProgrammingBoard;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -479,7 +480,7 @@ public class VirtualRobotController {
         }
         bot = getVirtualBotInstance(cbxConfig.getValue());
         if (bot == null) System.out.println("Unable to get VirtualBot Object");
-        bot.positionTo(200, 0 ,0);
+        if (!(bot instanceof ProgrammingBoard)) bot.positionTo(200, 0 ,0);
         hardwareMap = bot.getHardwareMap();
         initializeTelemetryTextArea();
         sldRandomMotorError.setValue(0.0);
