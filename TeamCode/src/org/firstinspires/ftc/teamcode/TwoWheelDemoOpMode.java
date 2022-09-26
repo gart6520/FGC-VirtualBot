@@ -24,9 +24,6 @@ public class TwoWheelDemoOpMode extends OpMode {
     private int waitForStartTime = 0;
 
     public void init(){
-        left = hardwareMap.dcMotor.get("left_motor");
-        right = hardwareMap.dcMotor.get("right_motor");
-        left.setDirection(DcMotor.Direction.REVERSE);
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         backServo = hardwareMap.servo.get("back_servo");
         colorSensor = hardwareMap.colorSensor.get("color_sensor");
@@ -57,27 +54,29 @@ public class TwoWheelDemoOpMode extends OpMode {
     }
 
     public void loop(){
-        if (gamepad1.a){
-            telemetry.addData("a pressed","");
-            left.setPower(-.5);
-            right.setPower(-.5);
-        } else if (gamepad1.y) {
-            telemetry.addData("y pressed", "");
-            left.setPower(0.5);
-            right.setPower(0.5);
-        } else if (gamepad1.b){
-            telemetry.addData("b pressed", "");
-            left.setPower(0.5);
-            right.setPower(-0.5);
-        } else if (gamepad1.x){
-            telemetry.addData("x pressed", "");
-            left.setPower(-0.5);
-            right.setPower(0.5);
-        } else {
-            left.setPower(0);
-            right.setPower(0);
-        }
-        backServo.setPosition(0.5 - 0.5* gamepad1.left_stick_y);
+//        if (gamepad1.a){
+//            telemetry.addData("a pressed","");
+//            left.setPower(-.5);
+//            right.setPower(-.5);
+//        } else if (gamepad1.y) {
+//            telemetry.addData("y pressed", "");
+//            left.setPower(0.5);
+//            right.setPower(0.5);
+//        } else if (gamepad1.b){
+//            telemetry.addData("b pressed", "");
+//            left.setPower(0.5);
+//            right.setPower(-0.5);
+//        } else if (gamepad1.x){
+//            telemetry.addData("x pressed", "");
+//            left.setPower(-0.5);
+//            right.setPower(0.5);
+//        } else {
+//            left.setPower(0);
+//            right.setPower(0);
+//        }
+        left.setPower(-gamepad1.left_stick_y);
+        right.setPower(-gamepad1.right_stick_y);
+        //backServo.setPosition(0.5 - 0.5* gamepad1.left_stick_y);
         telemetry.addData("Press", "Y-fwd, A-rev, B-Rt, X-Lt");
         telemetry.addData("Left Gamepad stick controls back servo","");
         telemetry.addData("Color","R %d  G %d  B %d", colorSensor.red(), colorSensor.green(), colorSensor.blue());
